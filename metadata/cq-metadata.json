@@ -1,7 +1,7 @@
 [
     {
         "name": "sweepstakes",
-        "localPath": "./src/sweepstakes.json",
+        "localPath": "./src/products.json",
         "envPath": "https://dummyjson.com/products"
     }
 ]
