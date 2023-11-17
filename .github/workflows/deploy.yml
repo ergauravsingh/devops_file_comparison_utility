@@ -36,6 +36,6 @@ jobs:
           ENV_PATH=$(jq -r '.envPath' <<< "$obj")
           FILE_FROM_ENV=$(curl -s $ENV_PATH)
           echo $FILE_NAME
-          cat $FILE_FROM_ENV
-          cat $LOCAL_PATH
+          echo $FILE_FROM_ENV
+          echo $LOCAL_PATH
         done
