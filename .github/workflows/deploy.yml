@@ -32,5 +32,5 @@ jobs:
           DEPLOYED_FILE=$(curl -s $ENV_PATH)
           echo "Comparing file - $FILE_NAME"
 
-          diff $LOCAL_PATH < (echo "$DEPLOYED_FILE")
+          diff $LOCAL_PATH <(echo "$DEPLOYED_FILE")
         done
