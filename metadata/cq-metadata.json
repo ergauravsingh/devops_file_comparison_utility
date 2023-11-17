@@ -1,6 +1,6 @@
 [
     {
-        "name": "products",
+        "name": "products.json",
         "localPath": "./src/products.json",
         "envPath": "https://dummyjson.com/products"
     }

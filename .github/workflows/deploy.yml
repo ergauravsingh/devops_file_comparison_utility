@@ -16,26 +16,21 @@ jobs:
     - name: Print variable
       run: echo $LOCALVAR
 
-    # - name: Install jq for using JSON
-    #   run: |
-    #     sudo apt-get update
-    #     sudo apt-get install -y jq 
-
-    - name: checkout repo
+    - name: Checkout repository
       uses: actions/checkout@v2.3.4
 
     - name: Print metadata file content
       run: cat $METADATA_FILE_PATH
     
-    - name: Print file using jq
+    - name: Compare Files
       run: |
         JSON=$(cat $METADATA_FILE_PATH)
         jq -c '.[]' <<< "$JSON" | while read obj; do
           FILE_NAME=$(jq -r '.name' <<< "$obj")
-          LOCAL_PATH=$(jq -r '.localPath' <<< "$obj")
+          LOCAL_PATH=$(jq -r '.localPath' <<< "$obj") 
           ENV_PATH=$(jq -r '.envPath' <<< "$obj")
-          FILE_FROM_ENV=$(curl -s $ENV_PATH)
-          echo $FILE_NAME
-          echo $FILE_FROM_ENV
-          echo $LOCAL_PATH
+          DEPLOYED_FILE=$(curl -s $ENV_PATH)
+          echo "Comparing file - $FILE_NAME"
+
+          diff $LOCAL_PATH < (echo "$DEPLOYED_FILE")
         done
