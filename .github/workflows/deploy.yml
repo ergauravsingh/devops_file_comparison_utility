@@ -10,8 +10,27 @@ jobs:
   compare:
     runs-on: ubuntu-latest
     env:
-      LOCALVAR: abcde
+      METADATA_FILE_PATH: ./metadata/cq-metadata.json
 
     steps:
     - name: Print variable
       run: echo $LOCALVAR
+
+    - name: Checkout repository
+      uses: actions/checkout@v2.3.4
+
+    - name: Print metadata file content
+      run: cat $METADATA_FILE_PATH
+    
+    - name: Compare Files
+      run: |
+        JSON=$(cat $METADATA_FILE_PATH)
+        jq -c '.[]' <<< "$JSON" | while read obj; do
+          FILE_NAME=$(jq -r '.name' <<< "$obj")
+          LOCAL_PATH=$(jq -r '.localPath' <<< "$obj") 
+          ENV_PATH=$(jq -r '.envPath' <<< "$obj")
+          DEPLOYED_FILE=$(curl -s $ENV_PATH)
+          echo "Comparing file - $FILE_NAME"
+
+          diff $LOCAL_PATH < (echo "$DEPLOYED_FILE")
+        done
