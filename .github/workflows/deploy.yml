@@ -32,5 +32,13 @@ jobs:
           DEPLOYED_FILE=$(curl -s $ENV_PATH)
           echo "Comparing file - $FILE_NAME"
 
-          diff $LOCAL_PATH <(echo "$DEPLOYED_FILE")
+
+          LOCAL_HASH=$(md5sum $LOCAL_PATH | cut -d ' ' -f 1)
+          ENV_HASH=$(echo "$DEPLOYED_FILE" | md5sum | cut -d ' ' -f 1)
+
+          if ["$LOCAL_HASH" == "$ENV_HASH"]; then
+            echo "$FILE_NAME is up to date"
+          else
+            echo "$FILE_NAME" is not up to date
+          fi
         done
