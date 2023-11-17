@@ -1,7 +1,12 @@
 [
     {
-        "name": "products.json",
-        "localPath": "./src/products.json",
-        "envPath": "https://dummyjson.com/products"
+        "name": "iphone9.json",
+        "localPath": "./src/messages/iphone9.json",
+        "envPath": "https://dummyjson.com/products/1"
+    },
+    {
+        "name": "iphone10.json",
+        "localPath": "./src/messages/iphone10.json",
+        "envPath": "https://dummyjson.com/products/2"
     }
 ]

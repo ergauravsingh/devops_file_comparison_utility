@@ -24,13 +24,25 @@ jobs:
     
     - name: Compare Files
       run: |
-        JSON=$(cat $METADATA_FILE_PATH)
-        jq -c '.[]' <<< "$JSON" | while read obj; do
+        METADATA=$(cat $METADATA_FILE_PATH)
+        jq -c '.[]' <<< "$METADATA" | while read obj; do
           FILE_NAME=$(jq -r '.name' <<< "$obj")
           LOCAL_PATH=$(jq -r '.localPath' <<< "$obj") 
           ENV_PATH=$(jq -r '.envPath' <<< "$obj")
-          DEPLOYED_FILE=$(curl -s $ENV_PATH)
-          echo "Comparing file - $FILE_NAME"
 
-          diff $LOCAL_PATH < (echo "$DEPLOYED_FILE")
+          # Getting files ready
+          LOCAL_FILE=$(cat $LOCAL_PATH)
+          DEPLOYED_FILE=$(curl -s $ENV_PATH)
+
+          # Comparing files
+          echo "Comparing file - $FILE_NAME"
+          OUTPUT=$(diff <(echo $LOCAL_FILE) <(echo $DEPLOYED_FILE))
+
+          # Printing output
+          if [ -z "$OUTPUT" ]; then
+            echo "$FILE_NAME is up to date"
+          else
+            echo "$FILE_NAME is not up to date"
+            echo "$OUTPUT"
+          fi
         done
