@@ -29,12 +29,14 @@ jobs:
           FILE_NAME=$(jq -r '.name' <<< "$obj")
           LOCAL_PATH=$(jq -r '.localPath' <<< "$obj") 
           ENV_PATH=$(jq -r '.envPath' <<< "$obj")
-          DEPLOYED_FILE=$(curl -s $ENV_PATH)
+          curl -o $FILE_NAME $ENV_PATH
+
+
           echo "Comparing file - $FILE_NAME"
 
 
           LOCAL_HASH=$(md5sum $LOCAL_PATH | cut -d ' ' -f 1)
-          ENV_HASH=$(echo "$DEPLOYED_FILE" | md5sum | cut -d ' ' -f 1)
+          ENV_HASH=$(md5sum $FILE_NAME | cut -d ' ' -f 1)
 
           if ["$LOCAL_HASH" == "$ENV_HASH"]; then
             echo "$FILE_NAME is up to date"
