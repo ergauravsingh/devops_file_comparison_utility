@@ -36,7 +36,7 @@ jobs:
 
           # Comparing files
           echo "Comparing file - $FILE_NAME"
-          OUTPUT=$(diff $LOCAL_FILE $DEPLOYED_FILE)
+          OUTPUT=$(diff <(echo $LOCAL_FILE) <(echo $DEPLOYED_FILE))
 
           # Printing output
           if [-z "$OUTPUT"]; then
