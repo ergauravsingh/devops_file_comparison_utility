@@ -32,7 +32,7 @@ jobs:
 
           # Getting files ready
           LOCAL_FILE=$(cat $LOCAL_PATH)
-          DEPLOYED_FILE=$(curl -s $ENV_PATH)
+          DEPLOYED_FILE=$(curl $ENV_PATH)
 
           # Comparing files
           echo "Comparing file - $FILE_NAME"
