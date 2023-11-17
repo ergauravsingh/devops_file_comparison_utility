@@ -35,12 +35,5 @@ jobs:
 
           echo "Comparing file - $FILE_NAME"
 
-          if ["$LOCAL_FILE" == "$DEPLOYED_FILE"]; then
-            echo "$FILE_NAME is up to date"
-          else
-            echo "$FILE_NAME" is not up to date
-          fi
-
-          echo "local file $LOCAL_FILE"
-          echo "deployed file $DEPLOYED_FILE"
+          diff <(echo "$LOCAL_FILE") <(echo "$DEPLOYED_FILE")
         done
