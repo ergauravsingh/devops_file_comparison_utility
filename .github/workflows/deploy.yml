@@ -40,6 +40,7 @@ jobs:
 
           # Comparing files
           echo "Comparing file - $FILE_NAME"
+          echo "diff <(echo $LOCAL_FILE) <(echo $DEPLOYED_FILE)"
           OUTPUT=$(diff <(echo $LOCAL_FILE) <(echo $DEPLOYED_FILE))
 
           echo "output"
