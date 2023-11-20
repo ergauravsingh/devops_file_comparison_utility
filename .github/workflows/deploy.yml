@@ -41,7 +41,7 @@ jobs:
           # Comparing files
           echo "Comparing file - $FILE_NAME"
           echo "$(diff <(echo "$LOCAL_FILE") <(echo "$DEPLOYED_FILE"))"
-          DIFF_OUTPUT=$(diff <(echo "$LOCAL_FILE") <(echo "$DEPLOYED_FILE"))
+          DIFF_OUTPUT="$(diff <(echo "$LOCAL_FILE") <(echo "$DEPLOYED_FILE"))"
 
           echo "output"
           echo "output $DIFF_OUTPUT"
