@@ -42,10 +42,14 @@ jobs:
           echo "Comparing file - $FILE_NAME"
           OUTPUT=$(diff <(echo $LOCAL_FILE) <(echo $DEPLOYED_FILE))
 
+          echo "output"
+          echo "output $OUTPUT"
+
           # Printing output
           if [ -z "$OUTPUT" ]; then
             echo "$FILE_NAME is up to date"
           else
+            echo "else block"
             echo "$FILE_NAME is not up to date"
             echo "$OUTPUT"
           fi
