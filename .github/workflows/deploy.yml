@@ -34,15 +34,24 @@ jobs:
           LOCAL_FILE=$(cat $LOCAL_PATH)
           DEPLOYED_FILE=$(curl -s $ENV_PATH)
 
+          # Formatting and sorting files
+          LOCAL_FILE=$(echo "$LOCAL_FILE" | jq -S .)
+          DEPLOYED_FILE=$(echo "$DEPLOYED_FILE" | jq -S .)
+
           # Comparing files
           echo "Comparing file - $FILE_NAME"
-          OUTPUT=$(diff <(echo $LOCAL_FILE) <(echo $DEPLOYED_FILE))
+          echo "$(diff <(echo "$LOCAL_FILE") <(echo "$DEPLOYED_FILE"))"
+          DIFF_OUTPUT="$(diff <(echo "$LOCAL_FILE") <(echo "$DEPLOYED_FILE"))"
+
+          echo "output"
+          echo "output $DIFF_OUTPUT"
 
           # Printing output
-          if [ -z "$OUTPUT" ]; then
+          if [ -z "$DIFF_OUTPUT" ]; then
             echo "$FILE_NAME is up to date"
           else
+            echo "else block"
             echo "$FILE_NAME is not up to date"
-            echo "$OUTPUT"
+            echo "$DIFF_OUTPUT"
           fi
         done
